@@ -1,0 +1,124 @@
+task1:-
+1.INSERT INTO Students (StudentID, FirstName, LastName, BirthDate, Email)
+VALUES (6, 'Lina', 'Ahmad', '2002-09-20', 'lina.ahmad@example.com');
+
+
+2.SELECT 
+    Classes.ClassID,
+    Classes.ClassName,
+    Teachers.FirstName,
+    Teachers.LastName
+FROM 
+    Classes
+JOIN 
+    Teachers ON Classes.TeacherID = Teachers.TeacherID;
+
+3.UPDATE Teachers
+SET Email = 'fatima.khalid@newdomain.com'
+WHERE TeacherID = 2;
+
+4.DELETE FROM Enrollments
+WHERE StudentID = 3;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+task2:-
+1. INSERT INTO Books (BookID, Title, AuthorID, Genre, Price, PublicationDate) VALUES
+(6, 'The Great Gatsby', 1, 'Fiction', 15.99, '1925-04-10');
+
+2.SELECT * FROM Books WHERE AuthorID = 1;
+ 
+3. UPDATE Books
+SET Price = 20.99
+WHERE BookID = 2;
+
+
+4.DELETE FROM borrowedbooks WHERE BookID = 3;
+
+5.SELECT * FROM Books
+WHERE Genre = 'Science Fiction';
+
+6.SELECT *
+FROM Books
+WHERE (Genre = 'Fiction' AND Price < 20)
+   OR (AuthorID <> 2);
+
+7.SELECT * FROM Books ORDER BY PublicationDate DESC;
+8.SELECT MIN(Price) AS MinPrice
+FROM Books;
+SELECT MAX(Price) AS MaxPrice
+FROM Books;
+
+9.SELECT COUNT(*) AS TotalBooks
+FROM Books;
+
+SELECT AVG(Price) AS AveragePrice
+FROM Books;
+
+SELECT SUM(Price) AS TotalPrice
+FROM Books;
+
+10.SELECT *
+FROM Books
+WHERE Title LIKE 'The%';
+
+11.SELECT Genre, COUNT(*) AS GenreCount
+FROM Books
+GROUP BY Genre;
+
+12.SELECT b.Title, a.Name AS AuthorName
+FROM Books b
+JOIN Authors a ON b.AuthorID = a.AuthorID;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+task3:-
+SELECT m.FirstName, m.LastName, m.Email, COUNT(b.BorrowID) AS TotalBorrows
+FROM Members m
+JOIN Borrows b ON m.MemberID = b.MemberID
+WHERE m.JoinDate > '2023-01-01'
+  AND m.Email NOT LIKE '%@example.com'
+GROUP BY m.MemberID, m.FirstName, m.LastName, m.Email
+HAVING COUNT(b.BorrowID) > 3
+ORDER BY m.LastName ASC;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+task4:-
+1. SELECT MIN(bk.Price) AS MinPrice, MAX(bk.Price) AS MaxPrice
+FROM Books bk
+JOIN Borrows br ON bk.BookID = br.BookID
+JOIN Members m ON br.MemberID = m.MemberID
+WHERE m.JoinDate > '2023-01-01';
+
+
+2. SELECT 
+    COUNT(bk.BookID) AS TotalBorrowedBooks,
+    AVG(bk.Price) AS AveragePrice,
+    SUM(bk.Price) AS TotalPrice
+FROM Books bk
+JOIN Borrows br ON bk.BookID = br.BookID
+JOIN Members m ON br.MemberID = m.MemberID
+WHERE m.JoinDate > '2023-01-01';
+
+
+3. SELECT *
+FROM Members
+WHERE LastName LIKE 'J%';
+
+
+4. SELECT m.MemberID, m.FirstName, m.LastName, COUNT(br.BookID) AS BorrowedBooksCount
+FROM Members m
+JOIN Borrows br ON m.MemberID = br.MemberID
+GROUP BY m.MemberID, m.FirstName, m.LastName;
+
+
+5.SELECT 
+    m.FirstName,
+    m.LastName,
+    b.Title
+FROM 
+    Borrows bo
+JOIN 
+    Books b ON bo.BookID = b.BookID
+JOIN 
+    Members m ON bo.MemberID = m.MemberID;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
